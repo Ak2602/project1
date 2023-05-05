@@ -15,17 +15,19 @@ export const processor = async (req, res) => {
       });
       //   console.log(selectedBank.bankName);
       if (selectedBank) {
-        let p = selectedBank.loanAmount;
-        let r = selectedBank.interestRate / 100 / 12;
-        let n = duration * 12;
+        // let p = selectedBank.loanAmount;
+        // let r = selectedBank.interestRate / 100 / 12;
+        // let n = duration * 12;
         con.sync().then(async () => {
           await loanDetails
             .create({
               user_id: userId,
               bankName: selectedBank.bankName,
               interestRate: selectedBank.interestRate,
-              loanAmount: selectedBank.loanAmount,
-              emi: (p * r * ((1 + r) ^ n)) / ((1 + r) ^ (n - 1)),
+              sanctionAmount: selectedBank.loanAmount,
+              disburseAmount: 0,
+              remainingAmount: selectedBank.loanAmount,
+              // emi: (p * r * ((1 + r) ^ n)) / ((1 + r) ^ (n - 1)),
               duration: duration,
             })
             .then((result) => {

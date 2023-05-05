@@ -14,17 +14,29 @@ export const loanDetails = con.define("loanDetails", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  loanAmount: {
+  sanctionAmount: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  disburseAmount: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  remainingAmount: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
   emi: {
     type: DataTypes.FLOAT,
-    allowNull: false,
+    allowNull: true,
   },
   duration: {
     type: DataTypes.INTEGER,
     allowNull: false,
+  },
+  status: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
 });
 

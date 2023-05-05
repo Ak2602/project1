@@ -1,7 +1,8 @@
 import { con } from "../config/db.js";
 import { users } from "../modals/user.modal.js";
+import { loanDetails } from "../modals/userLoan.modal.js";
 
-export const auth = async (req, res, next) => {
+export const auth = async (req, res) => {
   try {
     let email = req.body.email;
     let password = req.body.password;
@@ -13,21 +14,56 @@ export const auth = async (req, res, next) => {
         },
       });
       if (user) {
+        var registerUser = Number(true);
         con.sync().then(async () => {
-          await users
-            .findAll()
-            .then((results) => {
-              res
-                .status(200)
-                .json({ msg: "Login Success", records: results.length });
-            })
-            .catch((error) => {
-              res.status(404).json(error);
+          let overallCount = await loanDetails.findOne({
+            where: {
+              user_id: user.id,
+            },
+          });
+          if (overallCount) {
+            let amountDisbursed = overallCount.disbursedAmount;
+            let status = overallCount.status;
+            if (status == "OPEN") {
+              var count3 = Number(true);
+              var count4 = Number(false);
+            } else {
+              count3 = Number(false);
+              count4 = Number(false);
+            }
+            if (status == "closed") {
+              count4 = Number(true);
+            }
+            if (amountDisbursed != 0) {
+              var count2 = Number(true);
+            } else {
+              count2 = Number(false);
+            }
+            if (overallCount) {
+              var count1 = Number(true);
+            } else {
+              count1 = Number(false);
+            }
+            res.status(200).json({
+              "User Generation": registerUser,
+              "Bank Selection": count1,
+              "Loan Processing": count2,
+              "Open Loan": count3,
+              "Closed Loan": count4,
             });
+          } else {
+            res.status(200).json({
+              "User Generation": registerUser,
+              "Bank Selection": Number(false),
+              "Loan Processing": Number(false),
+              "Open Loan": Number(false),
+              "Closed Loan": Number(false),
+            });
+          }
         });
       } else {
         (err) => {
-          res.status(401).json({ err: "Invalid Credentials!!!" });
+          res.status(401).json({ err, err: "Invalid Credentials!!!" });
         };
       }
     });
