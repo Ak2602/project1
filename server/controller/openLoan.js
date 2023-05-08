@@ -94,7 +94,7 @@ export const openLoan = async (req, res) => {
         res.status(422).json("Invalid Amount!");
       }
     });
-  } catch {
+  } catch (err) {
     res.status(500).json(err);
   }
 };
