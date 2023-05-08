@@ -1,6 +1,6 @@
 import { con } from "../config/db.js";
-import { users } from "../modals/user.modal.js";
-import { loanDetails } from "../modals/userLoan.modal.js";
+import { users } from "../models/user.model.js";
+import { loanDetails } from "../models/userLoan.model.js";
 
 export const auth = async (req, res) => {
   try {
@@ -10,61 +10,13 @@ export const auth = async (req, res) => {
       let user = await users.findOne({
         where: {
           email: email,
-          password: password,
         },
       });
-      if (user) {
-        var registerUser = Number(true);
-        con.sync().then(async () => {
-          let overallCount = await loanDetails.findOne({
-            where: {
-              user_id: user.id,
-            },
-          });
-          if (overallCount) {
-            let amountDisbursed = overallCount.disbursedAmount;
-            let status = overallCount.status;
-            if (status == "OPEN") {
-              var countOpen_loan = Number(true);
-              var countClosed_loan = Number(false);
-            } else {
-              countOpen_loan = Number(false);
-              countClosed_loan = Number(false);
-            }
-            if (status == "closed") {
-              countClosed_loan = Number(true);
-            }
-            if (amountDisbursed != 0) {
-              var countLoan_processing = Number(true);
-            } else {
-              countLoan_processing = Number(false);
-            }
-            if (overallCount) {
-              var countBank_selection = Number(true);
-            } else {
-              countBank_selection = Number(false);
-            }
-            res.status(200).json({
-              "User Generation": registerUser,
-              "Bank Selection": countBank_selection,
-              "Loan Processing": countLoan_processing,
-              "Open Loan": countOpen_loan,
-              "Closed Loan": countClosed_loan,
-            });
-          } else {
-            res.status(200).json({
-              "User Generation": registerUser,
-              "Bank Selection": Number(false),
-              "Loan Processing": Number(false),
-              "Open Loan": Number(false),
-              "Closed Loan": Number(false),
-            });
-          }
-        });
+      // console.log(user);
+      if (user.email == email && user.password == password) {
+        res.status(200).json({ status: "User Log in Success" });
       } else {
-        (err) => {
-          res.status(401).json({ err, err: "Invalid Credentials!!!" });
-        };
+        res.status(401).json({ warning: "Invalid Credentials!!!" });
       }
     });
   } catch (err) {

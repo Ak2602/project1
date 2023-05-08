@@ -11,8 +11,9 @@ export const users = con.define("usr", {
     allowNull: false,
   },
   contact: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
+    len: [11, 11],
   },
   email: {
     type: DataTypes.STRING,

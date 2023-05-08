@@ -1,6 +1,6 @@
 import { con } from "../config/db.js";
-import { banks } from "../modals/bank.modal.js";
-import { loanDetails } from "../modals/userLoan.modal.js";
+import { banks } from "../models/bank.model.js";
+import { loanDetails } from "../models/userLoan.model.js";
 
 export const processor = async (req, res) => {
   try {
@@ -37,6 +37,8 @@ export const processor = async (req, res) => {
               res.status(400).json(error);
             });
         });
+      } else {
+        res.status(401).json({ Warning: "Enter Correct Bank Details" });
       }
     });
   } catch (err) {

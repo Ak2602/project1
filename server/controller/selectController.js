@@ -1,12 +1,12 @@
-import { banks } from "../modals/bank.modal.js";
+import { banks } from "../models/bank.model.js";
 import { con } from "../config/db.js";
 
 export const selection = async (req, res) => {
   try {
     let type = req.body.employment;
     let salary = req.body.salary;
-    con.sync().then(() => {
-      banks
+    con.sync().then(async () => {
+      await banks
         .update(
           {
             loanAmount: salary * 15,

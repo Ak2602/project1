@@ -1,5 +1,5 @@
 import { con } from "../config/db.js";
-import { loanDetails } from "../modals/userLoan.modal.js";
+import { loanDetails } from "../models/userLoan.model.js";
 
 export const openLoan = async (req, res) => {
   try {
