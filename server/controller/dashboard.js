@@ -7,13 +7,13 @@ export const dashboard = async (req, res) => {
   try {
     con.sync().then(async () => {
       let user_record = await users.findAll({ raw: true });
-      console.log(user_record.length);
+      //   console.log(user_record.length);
 
       let countBank_selection = await loanDetails.findAll({
         where: { disburseAmount: 0 },
         raw: true,
       });
-      console.log(countBank_selection.length);
+      //   console.log(countBank_selection.length);
 
       let countLoan_processing = await loanDetails.findAll({
         where: {
@@ -22,19 +22,19 @@ export const dashboard = async (req, res) => {
         },
         raw: true,
       });
-      console.log(countLoan_processing.length);
+      //   console.log(countLoan_processing.length);
 
       let countOpen_loan = await loanDetails.findAll({
         where: { status: "OPEN" },
         raw: true,
       });
-      console.log(countOpen_loan.length);
+      //   console.log(countOpen_loan.length);
 
       let countClosed_loan = await loanDetails.findAll({
         where: { status: "closed" },
         raw: true,
       });
-      console.log(countClosed_loan.length);
+      //   console.log(countClosed_loan.length);
 
       res.status(200).json({
         "User Records": user_record.length,
