@@ -25,31 +25,31 @@ export const auth = async (req, res) => {
             let amountDisbursed = overallCount.disbursedAmount;
             let status = overallCount.status;
             if (status == "OPEN") {
-              var count3 = Number(true);
-              var count4 = Number(false);
+              var countOpen_loan = Number(true);
+              var countClosed_loan = Number(false);
             } else {
-              count3 = Number(false);
-              count4 = Number(false);
+              countOpen_loan = Number(false);
+              countClosed_loan = Number(false);
             }
             if (status == "closed") {
-              count4 = Number(true);
+              countClosed_loan = Number(true);
             }
             if (amountDisbursed != 0) {
-              var count2 = Number(true);
+              var countLoan_processing = Number(true);
             } else {
-              count2 = Number(false);
+              countLoan_processing = Number(false);
             }
             if (overallCount) {
-              var count1 = Number(true);
+              var countBank_selection = Number(true);
             } else {
-              count1 = Number(false);
+              countBank_selection = Number(false);
             }
             res.status(200).json({
               "User Generation": registerUser,
-              "Bank Selection": count1,
-              "Loan Processing": count2,
-              "Open Loan": count3,
-              "Closed Loan": count4,
+              "Bank Selection": countBank_selection,
+              "Loan Processing": countLoan_processing,
+              "Open Loan": countOpen_loan,
+              "Closed Loan": countClosed_loan,
             });
           } else {
             res.status(200).json({
