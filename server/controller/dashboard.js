@@ -7,7 +7,19 @@ export const dashboard = async (req, res) => {
   try {
     con.sync().then(async () => {
       let user_record = await users.findAll({ raw: true });
-      //   console.log(user_record.length);
+
+      let user_register = await users.findAll({
+        attributes: ["id"],
+        raw: true,
+      });
+      //   console.log(user_register);
+      let user_selected = await loanDetails.findAll({
+        attributes: ["id"],
+        raw: true,
+      });
+      //   console.log(user_selected);
+
+      let user_generation = user_register.length - user_selected.length;
 
       let countBank_selection = await loanDetails.findAll({
         where: { disburseAmount: 0 },
@@ -37,8 +49,8 @@ export const dashboard = async (req, res) => {
       //   console.log(countClosed_loan.length);
 
       res.status(200).json({
-        "User Records": user_record.length,
-        "User Generation": user_record.length,
+        "Total Users": user_record.length,
+        "User Generation": user_generation,
         "Bank Selection": countBank_selection.length,
         "Loan Processing": countLoan_processing.length,
         "Open Loan": countOpen_loan.length,
