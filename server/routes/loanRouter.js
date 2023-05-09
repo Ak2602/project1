@@ -4,7 +4,7 @@ import { openLoan } from "../controller/openLoan.js";
 
 const proRouter = express.Router();
 
-proRouter.post("/loan/:id", processor);
+proRouter.post("/:id", processor);
 
 proRouter.post("/open/:id", openLoan);
 

@@ -8,9 +8,9 @@ const port = process.env.port || 3000;
 
 app.use(express.json());
 
-app.use("/userApi", logRouter);
-app.use("/bankApi", selRouter);
-app.use("/loanApi", proRouter);
+app.use("/user", logRouter);
+app.use("/bank", selRouter);
+app.use("/loan", proRouter);
 
 app.listen(port, () => {
   console.log(`server is stable at ${port}`);
