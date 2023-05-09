@@ -1,6 +1,5 @@
 import { con } from "../config/db.js";
 import { users } from "../models/user.model.js";
-import { loanDetails } from "../models/userLoan.model.js";
 
 export const auth = async (req, res) => {
   try {
@@ -13,7 +12,7 @@ export const auth = async (req, res) => {
         },
       });
       // console.log(user);
-      if (user.email == email && user.password == password) {
+      if (user.email === email && user.password === password) {
         res.status(200).json({ status: "User Log in Success" });
       } else {
         res.status(401).json({ warning: "Invalid Credentials!!!" });
@@ -26,6 +25,7 @@ export const auth = async (req, res) => {
 
 export const register = async (req, res) => {
   try {
+    let role = req.body.Role;
     let fname = req.body.firstName;
     let lname = req.body.lastName;
     let contact = req.body.contact;
@@ -34,6 +34,7 @@ export const register = async (req, res) => {
     con.sync().then(async () => {
       await users
         .create({
+          role: role,
           firstName: fname,
           lastName: lname,
           contact: contact,

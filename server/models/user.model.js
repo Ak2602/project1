@@ -2,6 +2,10 @@ import { con } from "../config/db.js";
 import { DataTypes } from "sequelize";
 
 export const users = con.define("usr", {
+  role: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   firstName: {
     type: DataTypes.STRING,
     allowNull: false,
