@@ -4,12 +4,14 @@ import { loanDetails } from "../models/userLoan.model.js";
 export const openLoan = async (req, res) => {
   try {
     let disburse = req.body.withdraw;
+    let bank = req.body.bank;
     let userId = req.params.id;
     con.sync().then(async () => {
       let user = await loanDetails.findOne({
-        where: { user_id: userId },
+        where: { user_id: userId, bankName: bank },
+        raw: true,
       });
-      //   console.log(user);
+      console.log(user);
       if (user.sanctionAmount > disburse && user.remainingAmount > disburse) {
         con.sync().then(() => {
           loanDetails
@@ -22,6 +24,7 @@ export const openLoan = async (req, res) => {
               {
                 where: {
                   user_id: userId,
+                  bankName: bank,
                 },
               }
             )
@@ -39,6 +42,7 @@ export const openLoan = async (req, res) => {
                   ],
                   where: {
                     user_id: userId,
+                    bankName: bank,
                   },
                 });
                 if (details) {
@@ -79,6 +83,7 @@ export const openLoan = async (req, res) => {
                   ],
                   where: {
                     user_id: userId,
+                    bankName: bank,
                   },
                 });
                 if (details) {
